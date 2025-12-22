@@ -10,7 +10,9 @@ namespace DAL
         public Context(DbContextOptions<Context> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
-       
+
+        public DbSet<Profile> Profile { get; set; }
+
         public DbSet<CV> CVs { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }

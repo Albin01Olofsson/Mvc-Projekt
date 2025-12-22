@@ -1,37 +1,53 @@
-using System.Diagnostics;
+   using DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using DAL;
+using Microsoft.EntityFrameworkCore;
 using Models;
+using ProjektApp.Viewmodels;
+using System.Diagnostics;
 
 namespace ProjektApp.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly Context _Context;
+        private readonly Context _context;
 
         public HomeController(Context context)
         {
-            _Context = context;
+            _context = context;
         }
 
         public IActionResult Index()
-        { 
-            List<Project> projects = _Context.Projects.ToList();
-            ViewBag.Projects = "Produkter";
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
-            return View();
-        }
+            var publicProfiles = _context.Profile
+                .Where(p => !p.IsPrivate)
+                .ToList();
 
-        
+            var cvs = _context.CVs
+                .Join(
+                    _context.Profile,
+                    cv => cv.ProfileId,
+                    profile => profile.ProfileId,
+                    (cv, profile) => new { cv, profile }
+                )
+                .Where(x => !x.profile.IsPrivate)
+                .Select(x => x.cv)
+                .ToList();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var vm = new HomeViewModel
+            {
+                PublicProfiles = publicProfiles,
+                CVs = cvs,
+                LatestProjects = _context.Projects
+            .OrderByDescending(p => p.ProjectId) 
+            .Take(3)
+            .ToList()
+            };
+
+            return View(vm);
         }
     }
+
+    
 }
