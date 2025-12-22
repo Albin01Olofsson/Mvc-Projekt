@@ -13,11 +13,13 @@ namespace Models
         public string Bio { get; set; }
         public string PictureUrl { get; set; }
 
+        public bool IsPrivate { get; set; }
+
         [ForeignKey("User")]
         public int UserId { get; set; }
 
         public User User { get; set; }
-        public CV CV { get; set; }
+       
     }
 }
 

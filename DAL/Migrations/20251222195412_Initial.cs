@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DAL.Migrations
 {
     /// <inheritdoc />
@@ -11,6 +13,22 @@ namespace DAL.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CVs",
+                columns: table => new
+                {
+                    CVId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Education = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Experience = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Skills = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CVs", x => x.CVId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
@@ -77,6 +95,7 @@ namespace DAL.Migrations
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPrivate = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -116,33 +135,44 @@ namespace DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "CVs",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "CVs",
+                columns: new[] { "CVId", "Education", "Experience", "ProfileId", "Skills" },
+                values: new object[,]
                 {
-                    CVId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Education = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Experience = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Skills = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CVs", x => x.CVId);
-                    table.ForeignKey(
-                        name: "FK_CVs_Profile_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profile",
-                        principalColumn: "ProfileId",
-                        onDelete: ReferentialAction.Cascade);
+                    { 1, "Systemvetenskap, ORU", "2 år som .NET-utvecklare", 1, null },
+                    { 2, "Datavetenskap", "Backend-utvecklare på startup", 2, null },
+                    { 3, "YH-utbildning i .NET", "Praktik på IT-företag", 3, null }
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CVs_ProfileId",
-                table: "CVs",
-                column: "ProfileId",
-                unique: true);
+            migrationBuilder.InsertData(
+                table: "Projects",
+                columns: new[] { "ProjectId", "Description", "Title" },
+                values: new object[,]
+                {
+                    { 1, "ASP.NET MVC-projekt", "CV-siten" },
+                    { 2, "Webbplats för att visa projekt", "Portfolio" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Email", "IsActive", "PasswordHash" },
+                values: new object[,]
+                {
+                    { 1, "anna@test.se", true, "TESTHASH" },
+                    { 2, "erik@test.se", true, "TESTHASH" },
+                    { 3, "anna2@test.se", true, "TESTHASH" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Profile",
+                columns: new[] { "ProfileId", "Bio", "FullName", "IsPrivate", "PictureUrl", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Systemutvecklare .NET", "Anna Andersson", false, "/images/anna.jpg", 1 },
+                    { 2, "Backend-utvecklare", "Erik Eriksson", true, "/images/erik.jpg", 2 },
+                    { 3, "Junior .NET-utvecklare", "Anna Andersson", false, "/images/anna2.jpg", 3 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
@@ -181,10 +211,10 @@ namespace DAL.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "ProjectMembers");
+                name: "Profile");
 
             migrationBuilder.DropTable(
-                name: "Profile");
+                name: "ProjectMembers");
 
             migrationBuilder.DropTable(
                 name: "Projects");

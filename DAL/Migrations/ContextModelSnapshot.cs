@@ -42,15 +42,34 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Skills")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CVId");
 
-                    b.HasIndex("ProfileId")
-                        .IsUnique();
-
                     b.ToTable("CVs");
+
+                    b.HasData(
+                        new
+                        {
+                            CVId = 1,
+                            Education = "Systemvetenskap, ORU",
+                            Experience = "2 år som .NET-utvecklare",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            CVId = 2,
+                            Education = "Datavetenskap",
+                            Experience = "Backend-utvecklare på startup",
+                            ProfileId = 2
+                        },
+                        new
+                        {
+                            CVId = 3,
+                            Education = "YH-utbildning i .NET",
+                            Experience = "Praktik på IT-företag",
+                            ProfileId = 3
+                        });
                 });
 
             modelBuilder.Entity("Models.Message", b =>
@@ -99,6 +118,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PictureUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -112,6 +134,35 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Profile");
+
+                    b.HasData(
+                        new
+                        {
+                            ProfileId = 1,
+                            Bio = "Systemutvecklare .NET",
+                            FullName = "Anna Andersson",
+                            IsPrivate = false,
+                            PictureUrl = "/images/anna.jpg",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            ProfileId = 2,
+                            Bio = "Backend-utvecklare",
+                            FullName = "Erik Eriksson",
+                            IsPrivate = true,
+                            PictureUrl = "/images/erik.jpg",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            ProfileId = 3,
+                            Bio = "Junior .NET-utvecklare",
+                            FullName = "Anna Andersson",
+                            IsPrivate = false,
+                            PictureUrl = "/images/anna2.jpg",
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("Models.Project", b =>
@@ -133,6 +184,20 @@ namespace DAL.Migrations
                     b.HasKey("ProjectId");
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectId = 1,
+                            Description = "ASP.NET MVC-projekt",
+                            Title = "CV-siten"
+                        },
+                        new
+                        {
+                            ProjectId = 2,
+                            Description = "Webbplats för att visa projekt",
+                            Title = "Portfolio"
+                        });
                 });
 
             modelBuilder.Entity("Models.ProjectMember", b =>
@@ -180,17 +245,29 @@ namespace DAL.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-                });
 
-            modelBuilder.Entity("Models.CV", b =>
-                {
-                    b.HasOne("Models.Profile", "Profile")
-                        .WithOne("CV")
-                        .HasForeignKey("Models.CV", "ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Profile");
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Email = "anna@test.se",
+                            IsActive = true,
+                            PasswordHash = "TESTHASH"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Email = "erik@test.se",
+                            IsActive = true,
+                            PasswordHash = "TESTHASH"
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            Email = "anna2@test.se",
+                            IsActive = true,
+                            PasswordHash = "TESTHASH"
+                        });
                 });
 
             modelBuilder.Entity("Models.Message", b =>
@@ -240,12 +317,6 @@ namespace DAL.Migrations
                     b.Navigation("Project");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Models.Profile", b =>
-                {
-                    b.Navigation("CV")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Models.Project", b =>
