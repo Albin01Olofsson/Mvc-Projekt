@@ -8,14 +8,12 @@ namespace ProjektApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MessageId { get; set; }
-
+        [Required]
         public string Content { get; set; }
         public DateTime SentAt { get; set; }
 
-        [ForeignKey("Sender")]
+    
         public int SenderId { get; set; }
-
-        [ForeignKey("Receiver")]
         public int ReceiverId { get; set; }
 
         public User Sender { get; set; }

@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using ProjektApp.Models;
+
 namespace ProjektApp
 {
     public class Program
@@ -6,16 +9,27 @@ namespace ProjektApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            //
+            // 1. MVC
+            //
             builder.Services.AddControllersWithViews();
+
+            //
+            // 2. DbContext + ConnectionString
+            //
+            builder.Services.AddDbContext<Context>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            //
+            // 3. Middleware pipeline
+            //
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -24,8 +38,13 @@ namespace ProjektApp
 
             app.UseRouting();
 
+            // (Auth kommer här senare)
+            // app.UseAuthentication();
             app.UseAuthorization();
 
+            //
+            // 4. Routing
+            //
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

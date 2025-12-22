@@ -16,5 +16,23 @@ namespace ProjektApp.Models
         public DbSet<Message> Messages { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<UserSkill> UserSkills { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Message>()
+        .HasOne(m => m.Sender)
+        .WithMany(u => u.SentMessages)
+        .HasForeignKey(m => m.SenderId)
+        .HasPrincipalKey(u => u.UserId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany(u => u.ReceivedMessages)
+                .HasForeignKey(m => m.ReceiverId)
+                .HasPrincipalKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }
