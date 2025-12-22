@@ -1,0 +1,94 @@
+-------KRAV HANTERING-------
+
+
+Här är en konkret checklista baserad på projektbeskrivningen, uppdelad efter de krav som ställs för betygen G och VG.
+
+Allmänna krav på arkitektur och miljö (G/VG)
+Innan de specifika funktionerna bockas av måste dessa tekniska grundkrav vara uppfyllda:
+
+[ ] Ramverk: Byggt med ASP.NET Core MVC.
+
+[ ] Arkitektur: Uppdelat i flera projekt (t.ex. webbapplikation och datalager).
+
+[ ] Databas: Använder SQL Server Express med en relationsmodell.
+
+[ ] Säkerhet: Inloggning sker via ASP.NET Core Identity.
+
+[ ] Validering: All inmatning valideras med Data Annotations.
+
+[ ] Felhantering: Undantagshantering (try-catch) med informativa felmeddelanden.
+
+[ ] Kodkvalitet: Konsekvent syntax, namnsättning och relevanta kommentarer.
+
+[ ] Portabilitet: Relativ sökväg i connectionstring så att projektet kan köras direkt på en annan dator.
+
+Krav för Godkänt (G)
+För att nå betyget G måste samtliga 14 punkter nedan vara fungerande:
+
+[ ] 1. Startsida: Visa ett urval av CV:n med länkar till profiler, samt det senast upplagda projektet.
+
+[ ] 2. Inloggning: Möjlighet för befintliga användare att logga in.
+
+[ ] 3. Registrering: Möjlighet för nya användare att skapa ett konto.
+
+[ ] 4. Redigera profil:
+
+[ ] Ändra lösenord.
+
+[ ] Ändra basinfo (namn, adress, privat/offentlig profil).
+
+[ ] Ändra CV (minst Kompetenser, Utbildningar, Erfarenhet).
+
+[ ] Ladda upp profilbild.
+
+[ ] Välja projekt man deltagit i (från en lista av alla projekt).
+
+[ ] 5. CV-sida: Visa kontaktinfo, CV-detaljer, profilbild och valda projekt.
+
+[ ] 6. Privat profil: Om profilen är privat får den inte synas på startsidan eller för oinloggade.
+
+[ ] 7. Åtkomst: Privata CV:n och deras projekt ska endast visas för inloggade.
+
+[ ] 8. Skapa projekt: Möjlighet att skapa nya projekt med titel och beskrivning.
+
+[ ] 9. Editera projekt: Användare ska kunna redigera projekt de själva skapat.
+
+[ ] 10. Projektlista: En sida som listar alla projekt och vilka personer som ingår (respektera privatinställning för oinloggade).
+
+[ ] 11. Meddelandefunktion: Möjlighet att skicka meddelanden till en användare via deras CV-sida (anonymt eller inloggat).
+
+[ ] 12. Sökfunktion: Sök på namn. Inloggade ser även privata profiler i resultatet.
+
+[ ] 13. Läsa meddelanden: Inloggade kan se sina meddelanden och markera dem som "lästa".
+
+[ ] 14. Notifikationer: En räknare för olästa meddelanden ska synas på alla sidor (t.ex. i headern).
+
+Krav för Väl Godkänt (VG)
+För VG krävs alla G-krav samt minst 7 utökade funktioner (eller 5-6 om ni väljer att kompensera):
+
+[ ] 1. Besöksstatistik: Spara antal besök per CV-sida i databasen.
+
+[ ] 2. Visa statistik: Användaren ska kunna se antalet besök på sitt eget CV.
+
+[ ] 3. Inaktivera konto: Funktion för att avsluta kontot (det ska deaktiveras, inte tas bort helt ur databasen).
+
+[ ] 4. Ta bort meddelanden:
+
+[ ] Användare kan radera mottagna meddelanden.
+
+[ ] Kräver bekräftelse (ej window.confirm).
+
+[ ] Man kan endast ta bort sina egna meddelanden.
+
+[ ] 5. Matcha profil: Funktion för att hitta "liknande person" baserat på valfri profildata.
+
+[ ] 6. Avancerad sök: Kunna söka på både namn och kompetenser samtidigt.
+
+[ ] 7. Exportera XML: Funktion för att exportera profildata (exklusive lösenord) till en XML-fil via serialisering för nedladdning.
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+-------VAD VI HAR GJORT OCH VAD VI SKA GÖRA-------
