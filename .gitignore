@@ -416,3 +416,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+# ASP.NET Core local configuration
+appsettings.Development.json
+appsettings.Local.json
+# EF Core generated migration designer files
+Migrations/*.Designer.cs
+# User secrets
+**/secrets.json
