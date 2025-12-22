@@ -1,24 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProjektApp.Models
+namespace Models
 {
-    public class Profile
+    public class ProjectMember
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProfileId { get; set; }
-
-        public string FullName { get; set; }
-        public string Bio { get; set; }
-        public string PictureUrl { get; set; }
+        public int ProjectMemberId { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }
 
+        [ForeignKey("Project")]
+        public int ProjectId { get; set; }
+
         public User User { get; set; }
-        public CV CV { get; set; }
+        public Project Project { get; set; }
     }
 }
-
-

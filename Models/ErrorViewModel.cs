@@ -1,4 +1,4 @@
-namespace ProjektApp.Models
+namespace Models
 {
     public class ErrorViewModel
     {
