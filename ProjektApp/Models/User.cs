@@ -18,14 +18,16 @@ namespace ProjektApp.Models
         [Required]
         public string PasswordHash { get; set; }
 
+        
+
         public bool IsActive { get; set; } = true;
 
         // Navigation
-        public Profile Profile { get; set; }
+        public Profile profile { get; set; }
         public ICollection<ProjectMember> ProjectMembers { get; set; }
         public ICollection<Message> SentMessages { get; set; }
         public ICollection<Message> ReceivedMessages { get; set; }
-        public ICollection<UserSkill> UserSkills { get; set; }
+        
 
     }
 }

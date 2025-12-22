@@ -14,7 +14,9 @@ namespace ProjektApp.Controllers
         }
 
         public IActionResult Index()
-        {
+        { 
+            List<Project> projects = _Context.Projects.ToList();
+            ViewBag.Projects = "Produkter";
             return View();
         }
 

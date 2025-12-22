@@ -12,9 +12,14 @@ namespace ProjektApp.Models
         public string Education { get; set; }
         public string Experience { get; set; }
 
+        public string Skills { get; set; }
+
+
+
         [ForeignKey("Profile")]
         public int ProfileId { get; set; }
 
         public Profile Profile { get; set; }
+
     }
 }
