@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ProjektApp.Migrations
+namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,19 +23,6 @@ namespace ProjektApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Skills",
-                columns: table => new
-                {
-                    SkillId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Skills", x => x.SkillId);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,7 +69,7 @@ namespace ProjektApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Profiles",
+                name: "Profile",
                 columns: table => new
                 {
                     ProfileId = table.Column<int>(type: "int", nullable: false)
@@ -94,9 +81,9 @@ namespace ProjektApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Profiles", x => x.ProfileId);
+                    table.PrimaryKey("PK_Profile", x => x.ProfileId);
                     table.ForeignKey(
-                        name: "FK_Profiles_Users_UserId",
+                        name: "FK_Profile_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
@@ -130,32 +117,6 @@ namespace ProjektApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSkills",
-                columns: table => new
-                {
-                    UserSkillId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    SkillId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserSkills", x => x.UserSkillId);
-                    table.ForeignKey(
-                        name: "FK_UserSkills_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
-                        principalColumn: "SkillId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserSkills_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CVs",
                 columns: table => new
                 {
@@ -163,15 +124,16 @@ namespace ProjektApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Education = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Experience = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Skills = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProfileId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CVs", x => x.CVId);
                     table.ForeignKey(
-                        name: "FK_CVs_Profiles_ProfileId",
+                        name: "FK_CVs_Profile_ProfileId",
                         column: x => x.ProfileId,
-                        principalTable: "Profiles",
+                        principalTable: "Profile",
                         principalColumn: "ProfileId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -193,8 +155,8 @@ namespace ProjektApp.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profiles_UserId",
-                table: "Profiles",
+                name: "IX_Profile_UserId",
+                table: "Profile",
                 column: "UserId",
                 unique: true);
 
@@ -206,16 +168,6 @@ namespace ProjektApp.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectMembers_UserId",
                 table: "ProjectMembers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserSkills_SkillId",
-                table: "UserSkills",
-                column: "SkillId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserSkills_UserId",
-                table: "UserSkills",
                 column: "UserId");
         }
 
@@ -232,16 +184,10 @@ namespace ProjektApp.Migrations
                 name: "ProjectMembers");
 
             migrationBuilder.DropTable(
-                name: "UserSkills");
-
-            migrationBuilder.DropTable(
-                name: "Profiles");
+                name: "Profile");
 
             migrationBuilder.DropTable(
                 name: "Projects");
-
-            migrationBuilder.DropTable(
-                name: "Skills");
 
             migrationBuilder.DropTable(
                 name: "Users");
