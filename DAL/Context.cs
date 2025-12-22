@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 
 
-namespace ProjektApp.Models
+namespace DAL
 {
     public class Context : DbContext
     {

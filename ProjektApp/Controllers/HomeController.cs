@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using ProjektApp.Models;
+using DAL;
+using Models;
 
 namespace ProjektApp.Controllers
 {
