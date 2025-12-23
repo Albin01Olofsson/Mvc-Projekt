@@ -8,7 +8,7 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProfileId { get; set; }
-
+        [Required(ErrorMessage =  " Vänligen ange namn ")]
         public string FullName { get; set; }
         public string Bio { get; set; }
         public string PictureUrl { get; set; }
@@ -16,7 +16,7 @@ namespace Models
         public bool IsPrivate { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public User User { get; set; }
        

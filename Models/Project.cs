@@ -8,8 +8,10 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProjectId { get; set; }
-
+        [Required(ErrorMessage =  " Vänligen ange titel ")]
         public string Title { get; set; }
+        [Required(ErrorMessage =  " Vänligen ange beskrivning ")]
+        [MinLength(10, ErrorMessage = " Beskrivningen måste vara minst 10 tecken lång ")]
         public string Description { get; set; }
 
         public ICollection<ProjectMember> ProjectMembers { get; set; }
