@@ -6,7 +6,8 @@
                 <div class="card-body">
                     <h3 class="text-center mb-4">Logga in</h3>
 
-                    <form asp-action="Login" method="post" novalidate>
+                    <form asp-controller="Account" asp-action="Login" method="post" novalidate>
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
                         <div class="mb-3">
                             <label asp-for="Email" class="form-label"></label>
                             <input asp-for="Email"
