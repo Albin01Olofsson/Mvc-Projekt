@@ -1,2 +1,73 @@
-﻿
-<h1>Profilsida</h1>
+﻿@model Profile
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">Min profil</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-4 text-center">
+            @if (!string.IsNullOrEmpty(Model?.PictureUrl))
+            {
+                <img src="@Model.PictureUrl"
+                     alt="Profilbild"
+                     class="img-fluid rounded mb-3"
+                     style="max-width:200px;" />
+            }
+            else
+            {
+                <img src="/images/default-profile.png"
+                     alt="Ingen profilbild"
+                     class="img-fluid rounded mb-3 opacity-75"
+                     style="max-width:200px;" />
+            }
+        </div>
+
+        <div class="col-md-8">
+            <p>
+                <strong>Email:</strong><br />
+                @ViewBag.UserEmail
+            </p>
+
+            @if (Model != null)
+            {
+                <p>
+                    <strong>Namn:</strong><br />
+                    @Model.FullName
+                </p>
+
+                <p>
+                    <strong>Bio:</strong><br />
+                    @Model.Bio
+                </p>
+
+                <p>
+                    <strong>Profilstatus:</strong><br />
+                    <span class="badge @(Model.IsPrivate ? "bg-secondary" : "bg-success")">
+                        @(Model.IsPrivate ? "Privat" : "Offentlig")
+                    </span>
+                </p>
+            }
+            else
+            {
+                <p class="text-muted">
+                    Ingen profilinformation tillgänglig.
+                </p>
+            }
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="d-flex gap-3">
+        <a href="@Url.Action("Edit", "Profile")"
+           class="btn btn-outline-primary">
+            Redigera profil
+        </a>
+
+        <a href="#"
+           class="btn btn-outline-secondary">
+            Mitt CV
+        </a>
+    </div>
+
+</div>

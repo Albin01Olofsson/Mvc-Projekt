@@ -35,7 +35,7 @@ namespace ProjektApp.Controllers
                 model.RememberMe,
                 lockoutOnFailure: false);
             if (result.Succeeded)
-                return RedirectToAction("Profile", "MyProfile");
+                return RedirectToAction("MyProfile", "Profile");
 
             ModelState.AddModelError("", "Felaktig inloggning");
             return View(model);
@@ -60,7 +60,7 @@ namespace ProjektApp.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("MyProfile", "Profile");
             }
             foreach (var error in result.Errors)
             
@@ -73,7 +73,7 @@ namespace ProjektApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Profile", "MyProfile");
+            return RedirectToAction("MyProfile", "Profile");
         }
 
     }

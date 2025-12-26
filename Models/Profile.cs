@@ -11,7 +11,7 @@ namespace Models
         [Required(ErrorMessage =  " Vänligen ange namn ")]
         public string FullName { get; set; }
         public string Bio { get; set; }
-        public string PictureUrl { get; set; }
+        public string? PictureUrl { get; set; }
 
         public bool IsPrivate { get; set; }
 

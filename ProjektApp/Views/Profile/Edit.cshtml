@@ -1,0 +1,53 @@
+﻿@model ProjektApp.Viewmodels.EditProfileViewModel;
+
+<h1>Redigera Profil</h1>
+
+<hr />
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary ="All"></div>
+
+    <div>
+        <label asp-for = "FullName"></label>
+        <input asp-for = "FullName" />
+        <span asp-validation-for ="FullName"></span>
+   </div>
+
+   <br />
+
+        <div>
+            <label asp-for = "Bio"></label>
+            <textarea asp-for = "Bio"></textarea>
+
+
+        </div>
+        <br />
+
+            <div>
+        <input asp-for="IsPrivate" />
+        <label asp-for="IsPrivate">Privat profil</label>
+
+            </div>
+
+    <button type="submit">Spara</button>
+
+    <div>
+        <label>Profilbild</label><br />
+        <input asp-for="ProfileImage" type="file" accept="image/*" />
+    </div>
+
+
+
+
+
+
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
