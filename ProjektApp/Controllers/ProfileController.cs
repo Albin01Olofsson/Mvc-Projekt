@@ -108,7 +108,25 @@ namespace ProjektApp.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.UserId == id);
+            if (profile == null)
+            {
+                return NotFound();
+            }
 
+            if(profile.IsPrivate && !User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            return View(profile);
+        }
 
 
     }

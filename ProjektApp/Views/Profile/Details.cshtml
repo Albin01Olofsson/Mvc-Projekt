@@ -1,0 +1,26 @@
+﻿@model Profile
+
+<a asp-controller="Profile"
+   asp-action="Details"
+   asp-route-id="@Model.UserId">
+    Visa profil
+</a>
+
+
+<h1>@Model.FullName:s profilsida</h1>
+
+@if (!string.IsNullOrEmpty(Model.PictureUrl))
+{
+    <img src="@Model.PictureUrl"
+         alt="Profilbild"
+         style="max-width:200px;" />
+}
+
+<hr />
+
+<p>
+    <strong>Bio:</strong><br />
+    @Model.Bio
+</p>
+
+

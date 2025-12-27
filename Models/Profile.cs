@@ -10,6 +10,7 @@ namespace Models
         public int ProfileId { get; set; }
         [Required(ErrorMessage =  " Vänligen ange namn ")]
         public string FullName { get; set; }
+        [Required]
         public string Bio { get; set; }
         public string? PictureUrl { get; set; }
 
@@ -19,7 +20,8 @@ namespace Models
         public string UserId { get; set; }
 
         public User User { get; set; }
-       
+
+        public CV CV { get; set; }
     }
 }
 
