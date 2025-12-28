@@ -64,10 +64,31 @@
             Redigera profil
         </a>
 
-        <a href="#"
-           class="btn btn-outline-secondary">
-            Mitt CV
-        </a>
+        @if (Model?.CV != null)
+        {
+            <a asp-controller="CV"
+               asp-action="Details"
+               asp-route-id="@Model.CV.CVId"
+               class="btn btn-outline-primary">
+                Mitt CV
+            </a>
+
+            <a asp-controller="CV"
+               asp-action="Edit"
+               class="btn btn-outline-secondary ms-2">
+                Redigera CV
+            </a>
+        }
+        else
+        {
+            <p>Du har inget CV ännu.</p>
+
+            <a asp-controller="CV"
+               asp-action="Edit"
+               class="btn btn-primary">
+                Skapa CV
+            </a>
+        }
     </div>
 
 </div>

@@ -2,28 +2,33 @@
 
 <div class="container mt-4">
    
-    
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="text-center mb-5 p-4 bg-light rounded">
+            <h1 class="fw-bold mb-3">Välkommen till CV-portalen</h1>
 
-    <div class="text-center mb-5 p-4 bg-light rounded">
-        <h1 class="fw-bold mb-3">Välkommen till CV-portalen</h1>
+            <p class="text-muted mb-4">
+                Logga in för att se fler CV:n, projekt och kontakta andra användare.
+            </p>
 
-        <p class="text-muted mb-4">
-            Logga in för att se fler CV:n, projekt och kontakta andra användare.
-        </p>
+            <a asp-controller="Account"
+               asp-action="Login"
+               class="btn btn-primary btn-lg me-2">
+                Logga in
+            </a>
 
-        <a asp-controller="Account"
-           asp-action="Login"
-           class="btn btn-primary btn-lg me-2">
-            Logga in
-        </a>
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="btn btn-outline-secondary btn-lg">
+                Registrera dig
+            </a>
+        </div>
 
-        <a asp-controller="Account"
-           asp-action="Register"
-           class="btn btn-outline-secondary btn-lg">
-            Registrera dig
-        </a>
-    </div>
-    
+    }
+
+
+     
+   
     
     <!-- Rubrik -->
     <div class="text-center mb-5">

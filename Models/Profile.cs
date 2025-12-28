@@ -21,7 +21,7 @@ namespace Models
 
         public User User { get; set; }
 
-        public CV CV { get; set; }
+        public CV? CV { get; set; }
     }
 }
 

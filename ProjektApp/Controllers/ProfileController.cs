@@ -30,7 +30,7 @@ namespace ProjektApp.Controllers
                 return RedirectToAction("login", "account");
             }
 
-            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.UserId == user.Id);
+            var profile = await _context.Profile.Include(p => p.CV).FirstOrDefaultAsync(p => p.UserId == user.Id);
             ViewBag.UserEmail = user.Email;
 
             return View(profile);
@@ -42,7 +42,10 @@ namespace ProjektApp.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.UserId == user.Id);
+            var profile = await _context.Profile
+                .Include(p => p.CV)
+                .FirstOrDefaultAsync(p => p.UserId == user.Id);
+           
             if (profile == null)
             {
                 return View(new EditProfileViewModel());

@@ -164,11 +164,9 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CVId"));
 
                     b.Property<string>("Education")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Experience")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProfileId")
@@ -178,6 +176,9 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CVId");
+
+                    b.HasIndex("ProfileId")
+                        .IsUnique();
 
                     b.ToTable("CVs");
                 });
@@ -412,6 +413,17 @@ namespace DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Models.CV", b =>
+                {
+                    b.HasOne("Models.Profile", "Profile")
+                        .WithOne("CV")
+                        .HasForeignKey("Models.CV", "ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("Models.Message", b =>
                 {
                     b.HasOne("Models.User", "Receiver")
@@ -434,7 +446,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("Models.Profile", b =>
                 {
                     b.HasOne("Models.User", "User")
-                        .WithOne("profile")
+                        .WithOne("Profile")
                         .HasForeignKey("Models.Profile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -461,6 +473,11 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Models.Profile", b =>
+                {
+                    b.Navigation("CV");
+                });
+
             modelBuilder.Entity("Models.Project", b =>
                 {
                     b.Navigation("ProjectMembers");
@@ -468,14 +485,14 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.User", b =>
                 {
+                    b.Navigation("Profile")
+                        .IsRequired();
+
                     b.Navigation("ProjectMembers");
 
                     b.Navigation("ReceivedMessages");
 
                     b.Navigation("SentMessages");
-
-                    b.Navigation("profile")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

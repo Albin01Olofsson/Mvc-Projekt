@@ -1,0 +1,15 @@
+﻿@model CV
+
+<h1>CV</h1>
+
+<h3>Utbildning</h3>
+<p>@Model.Education</p>
+
+<h3>Erfarenhet</h3>
+<p>@Model.Experience</p>
+
+@if (!string.IsNullOrEmpty(Model.Skills))
+{
+    <h3>Kompetenser</h3>
+    <p>@Model.Skills</p>
+}

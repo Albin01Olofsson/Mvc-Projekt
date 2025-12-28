@@ -37,6 +37,20 @@ namespace DAL
                 .HasPrincipalKey(u => u.Id)   // ✅ IdentityUser.Id
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // PROFILE ↔ USER (One-to-One)
+            modelBuilder.Entity<Profile>()
+                .HasOne(p => p.User)
+                .WithOne(u => u.Profile)
+                .HasForeignKey<Profile>(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // PROFILE ↔ CV (One-to-One)
+            modelBuilder.Entity<Profile>()
+                .HasOne(p => p.CV)
+                .WithOne(c => c.Profile)
+                .HasForeignKey<CV>(c => c.ProfileId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
 
 

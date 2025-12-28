@@ -1,0 +1,34 @@
+﻿@model EditCVViewModel
+
+<h1>Redigera CV</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="CVId" />
+
+    <!-- Sammanfattning av fel -->
+    <div asp-validation-summary="All" style="color:red;"></div>
+
+    <p>
+        <label asp-for="Education"></label><br />
+        <textarea asp-for="Education"></textarea><br />
+        <span asp-validation-for="Education" style="color:red;"></span>
+    </p>
+
+    <p>
+        <label asp-for="Experience"></label><br />
+        <textarea asp-for="Experience"></textarea><br />
+        <span asp-validation-for="Experience" style="color:red;"></span>
+    </p>
+
+    <p>
+        <label asp-for="Skills"></label><br />
+        <input asp-for="Skills" /><br />
+        <span asp-validation-for="Skills" style="color:red;"></span>
+    </p>
+
+    <button type="submit">Spara</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

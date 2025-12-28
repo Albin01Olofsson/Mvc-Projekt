@@ -10,7 +10,7 @@ namespace Models
         public bool IsActive { get; set; } = true;
 
         // Navigation
-        public Profile profile { get; set; }
+        public Profile Profile { get; set; }
         public ICollection<ProjectMember> ProjectMembers { get; set; }
         public ICollection<Message> SentMessages { get; set; }
         public ICollection<Message> ReceivedMessages { get; set; }
