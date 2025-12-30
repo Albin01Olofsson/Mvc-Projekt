@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Project>
+
+<h1>Projekt</h1>
+
+<div class="row">
+    @foreach (var project in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@project.Title</h5>
+
+                    <p class="card-text">
+                        @project.Description
+                    </p>
+
+                    <p class="text-muted mb-2">
+                        Medlemmar: @project.ProjectMembers.Count
+                    </p>
+
+                    <a asp-action="Details"
+                       asp-route-id="@project.ProjectId"
+                       class="btn btn-primary btn-sm">
+                        Visa projekt
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

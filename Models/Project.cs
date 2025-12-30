@@ -14,6 +14,6 @@ namespace Models
         [MinLength(10, ErrorMessage = " Beskrivningen måste vara minst 10 tecken lång ")]
         public string Description { get; set; }
 
-        public ICollection<ProjectMember> ProjectMembers { get; set; }
+        public ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
     }
 }

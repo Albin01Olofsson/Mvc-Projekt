@@ -23,10 +23,17 @@
     @Model.Bio
 </p>
 
-<a asp-controller="CV"
-   asp-action="Details"
-   asp-route-profileId="@Model.ProfileId">
-    Visa CV
-</a>
-
+@if (Model?.CV != null)
+{
+    <a asp-controller="CV"
+       asp-action="Details"
+       asp-route-id="@Model.CV.CVId"
+       class="btn btn-outline-primary">
+        Visa CV
+    </a>
+}
+else
+{
+    <p class="text-muted">Användaren har inget CV uppladdat.</p>
+}
 

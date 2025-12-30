@@ -11,7 +11,8 @@ namespace Models
 
         // Navigation
         public Profile Profile { get; set; }
-        public ICollection<ProjectMember> ProjectMembers { get; set; }
+        public ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
+
         public ICollection<Message> SentMessages { get; set; }
         public ICollection<Message> ReceivedMessages { get; set; }
         

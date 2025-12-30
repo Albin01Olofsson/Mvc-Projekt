@@ -22,11 +22,11 @@ namespace ProjektApp.Controllers
             _userManager = userManager;
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int profileId)
+        public async Task<IActionResult> Details(int id)
         {
             var cv = await _context.CVs
         .Include(c => c.Profile)
-        .FirstOrDefaultAsync(c => c.ProfileId == profileId);
+        .FirstOrDefaultAsync(c => c.ProfileId == id);
 
             if (cv == null)
                 return NotFound();

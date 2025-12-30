@@ -118,7 +118,9 @@ namespace ProjektApp.Controllers
             {
                 return NotFound();
             }
-            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.UserId == id);
+            var profile = await _context.Profile
+                .Include(p => p.CV)
+                .FirstOrDefaultAsync(p => p.UserId == id);
             if (profile == null)
             {
                 return NotFound();
