@@ -1,9 +1,10 @@
 ﻿using DAL;
-using Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
+using Models;
+using ProjektApp.Viewmodels;
 
 
 namespace ProjektApp.Controllers
@@ -22,10 +23,21 @@ namespace ProjektApp.Controllers
 
         public IActionResult Index()
         {
+            var userId = _userManager.GetUserId(User);
+
             var projects = _context.Projects
                 .Include(p => p.ProjectMembers)
-                .ThenInclude(pm => pm.User)
+                .Select(p => new ProjectListViewModel
+                {
+                    ProjectId = p.ProjectId,
+                    Title = p.Title,
+                    Description = p.Description,
+                    MemberCount = p.ProjectMembers.Count,
+                    IsCurrentUserMember = userId != null &&
+                        p.ProjectMembers.Any(pm => pm.UserId == userId)
+                })
                 .ToList();
+
             return View(projects);
         }
 
@@ -47,6 +59,26 @@ namespace ProjektApp.Controllers
                 };
 
                 _context.ProjectMembers.Add(membership);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Leave(int projectId)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var membership = await _context.ProjectMembers
+                .FirstOrDefaultAsync(pm =>
+                    pm.ProjectId == projectId &&
+                    pm.UserId == userId);
+
+            if (membership != null)
+            {
+                _context.ProjectMembers.Remove(membership);
                 await _context.SaveChangesAsync();
             }
 
