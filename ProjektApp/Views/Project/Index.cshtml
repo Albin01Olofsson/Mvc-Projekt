@@ -1,28 +1,46 @@
-﻿@model IEnumerable<Project>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
 
-<h1>Projekt</h1>
+@model IEnumerable<Project>
 
 <div class="row">
     @foreach (var project in Model)
     {
+        bool isMember = project.ProjectMembers
+        .Any(pm => pm.UserId == UserManager.GetUserId(User));
+
         <div class="col-md-4 mb-3">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title">@project.Title</h5>
+                    <h5>@project.Title</h5>
+                    <p>@project.Description</p>
 
-                    <p class="card-text">
-                        @project.Description
-                    </p>
-
-                    <p class="text-muted mb-2">
+                    <p class="text-muted">
                         Medlemmar: @project.ProjectMembers.Count
                     </p>
 
-                    <a asp-action="Details"
-                       asp-route-id="@project.ProjectId"
-                       class="btn btn-primary btn-sm">
-                        Visa projekt
-                    </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (!isMember)
+                        {
+                            <form asp-action="Join" method="post">
+                                <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                <button class="btn btn-success btn-sm">
+                                    Gå med i projekt
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Du är med i projektet
+                            </span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="text-muted">Logga in för att gå med</span>
+                    }
                 </div>
             </div>
         </div>
