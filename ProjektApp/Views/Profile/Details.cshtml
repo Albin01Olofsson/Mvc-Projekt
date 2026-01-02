@@ -37,3 +37,31 @@ else
     <p class="text-muted">Användaren har inget CV uppladdat.</p>
 }
 
+<hr />
+<h4 class="mb-3">Projekt</h4>
+
+@if (Model.User.ProjectMembers.Any())
+{
+    <div class="row g-3">
+        @foreach (var pm in Model.User.ProjectMembers)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@pm.Project.Title</h5>
+                        <p class="card-text text-muted">
+                            @pm.Project.Description
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted">
+        Användaren är inte med i några projekt.
+    </p>
+}
+

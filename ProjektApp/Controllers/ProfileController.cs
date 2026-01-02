@@ -30,7 +30,13 @@ namespace ProjektApp.Controllers
                 return RedirectToAction("login", "account");
             }
 
-            var profile = await _context.Profile.Include(p => p.CV).FirstOrDefaultAsync(p => p.UserId == user.Id);
+            var profile = await _context.Profile
+        .Include(p => p.CV)
+        .Include(p => p.User)
+            .ThenInclude(u => u.ProjectMembers)
+                .ThenInclude(pm => pm.Project)
+        .FirstOrDefaultAsync(p => p.UserId == user.Id);
+               
             ViewBag.UserEmail = user.Email;
 
             return View(profile);
@@ -120,7 +126,11 @@ namespace ProjektApp.Controllers
             }
             var profile = await _context.Profile
                 .Include(p => p.CV)
-                .FirstOrDefaultAsync(p => p.UserId == id);
+             .Include(p => p.User)
+            .ThenInclude(u => u.ProjectMembers)
+                .ThenInclude(pm => pm.Project)
+             .FirstOrDefaultAsync(p => p.UserId == id);
+            
             if (profile == null)
             {
                 return NotFound();
