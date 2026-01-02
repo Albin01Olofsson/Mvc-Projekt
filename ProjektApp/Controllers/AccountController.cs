@@ -46,7 +46,7 @@ namespace ProjektApp.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model )
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -63,8 +63,11 @@ namespace ProjektApp.Controllers
                 return RedirectToAction("MyProfile", "Profile");
             }
             foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
             
-            ModelState.AddModelError("", error.Description);
+           
             
             return View(model);
         }
