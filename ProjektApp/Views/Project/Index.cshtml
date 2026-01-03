@@ -1,4 +1,15 @@
-﻿@model IEnumerable<ProjectListViewModel>
+﻿@using System.Security.Claims
+@model IEnumerable<ProjectListViewModel>
+
+
+<div class="mb-2">
+    <a asp-controller="Project"
+       asp-action="Create"
+       class="btn btn-primary">
+        Skapa projekt
+    </a>
+</div>
+
 
 <div class="row">
     @foreach (var project in Model)
@@ -9,7 +20,19 @@
                     <h5>@project.Title</h5>
                     <p>@project.Description</p>
 
-                    <p class="text-muted">
+
+                    @if (project.IsOwner)
+                    {
+                        <a asp-action="Edit"
+                           asp-route-id="@project.ProjectId"
+                           class="btn btn-sm btn-outline-secondary">
+                            Ändra
+                        </a>
+                    }
+                    
+                    
+                    
+                     <p class="text-muted">
                         Medlemmar: @project.MemberCount
                     </p>
 

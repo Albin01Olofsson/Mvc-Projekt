@@ -19,7 +19,7 @@ namespace ProjektApp.Controllers
             _context = context;
             _userManager = userManager;
         }
-        
+
 
         public IActionResult Index()
         {
@@ -34,7 +34,8 @@ namespace ProjektApp.Controllers
                     Description = p.Description,
                     MemberCount = p.ProjectMembers.Count,
                     IsCurrentUserMember = userId != null &&
-                        p.ProjectMembers.Any(pm => pm.UserId == userId)
+                        p.ProjectMembers.Any(pm => pm.UserId == userId),
+                    IsOwner = userId != null && p.OwnerId == userId
                 })
                 .ToList();
 
@@ -83,6 +84,108 @@ namespace ProjektApp.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProjectViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var project = new Project
+            {
+                Title = model.Title,
+                Description = model.Description,
+                OwnerId = user.Id
+            };
+
+            _context.Projects.Add(project);
+            await _context.SaveChangesAsync();
+
+            var membership = new ProjectMember
+            {
+                ProjectId = project.ProjectId,
+                UserId = user.Id
+            };
+
+            _context.ProjectMembers.Add(membership);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = project.ProjectId });
+        }
+
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.ProjectId == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            if (project.OwnerId != userId)
+            {
+                return Forbid();
+            }
+
+            var vm = new EditProjectViewModel
+            {
+                ProjectId = project.ProjectId,
+                Title = project.Title,
+                Description = project.Description
+            };
+            return View(vm);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditProjectViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var userId = _userManager.GetUserId(User);
+
+            var project = await _context.Projects
+                .FirstOrDefaultAsync(p => p.ProjectId == model.ProjectId);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            if (project.OwnerId != userId)
+            {
+                return Forbid();
+            }
+            project.Title = model.Title;
+            project.Description = model.Description;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = project.ProjectId });
         }
     }
 }

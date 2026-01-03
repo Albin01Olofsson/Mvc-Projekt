@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
 namespace DAL
@@ -51,6 +50,12 @@ namespace DAL
                 .HasForeignKey<CV>(c => c.ProfileId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // PROJECTOWNER → USER
+            modelBuilder.Entity<Project>()
+              .HasOne(p => p.Owner)
+              .WithMany()
+              .HasForeignKey(p => p.OwnerId)
+              .OnDelete(DeleteBehavior.Restrict);
 
 
 

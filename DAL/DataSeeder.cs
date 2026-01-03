@@ -1,6 +1,5 @@
 ﻿using DAL;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Models;
 
 public static class DataSeeder
@@ -82,12 +81,15 @@ public static class DataSeeder
             new Project
             {
                 Title = "CV-sidan",
-                Description = "ASP.NET Core MVC-projekt"
+                Description = "ASP.NET Core MVC-projekt",
+                OwnerId = user1.Id
+
             },
             new Project
             {
                 Title = "Portfolio",
-                Description = "Webbplats för att visa projekt"
+                Description = "Webbplats för att visa projekt",
+                OwnerId = user2.Id
             }
         );
 
