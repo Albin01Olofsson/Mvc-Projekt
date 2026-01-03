@@ -11,11 +11,13 @@ namespace ProjektApp.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly Context _context;
 
-        public ProfileController(UserManager<User> userManager, Context context)
+        public ProfileController(UserManager<User> userManager, SignInManager<User> signInManager, Context context)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
         }
 
@@ -171,6 +173,49 @@ namespace ProjektApp.Controllers
 
             ViewBag.Search = search;
             return View(profiles);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var result = await _userManager.ChangePasswordAsync(
+             user,
+             model.CurrentPassword,
+             model.NewPassword
+             );
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+
+            //  uppdaterar inloggningen
+            await _signInManager.RefreshSignInAsync(user);
+
+            TempData["Success"] = "Lösenordet har ändrats.";
+            return RedirectToAction("MyProfile");
         }
 
     }
