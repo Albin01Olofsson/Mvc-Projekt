@@ -8,5 +8,7 @@
 
         public int MemberCount { get; set; }
         public bool IsCurrentUserMember { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

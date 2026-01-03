@@ -1,22 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models
+namespace ProjektApp.Viewmodels
 {
-    public class Project
+    public class EditProjectViewModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProjectId { get; set; }
+
         [Required(ErrorMessage = " Vänligen ange titel ")]
         public string Title { get; set; }
+
         [Required(ErrorMessage = " Vänligen ange beskrivning ")]
         [MinLength(10, ErrorMessage = " Beskrivningen måste vara minst 10 tecken lång ")]
         public string Description { get; set; }
-
-        public string? OwnerId { get; set; }
-        public User? Owner { get; set; }
-
-        public ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
     }
 }
+
