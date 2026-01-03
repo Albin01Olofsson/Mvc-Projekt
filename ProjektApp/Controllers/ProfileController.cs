@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using ProjektApp.Viewmodels;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace ProjektApp.Controllers
 {
@@ -20,7 +18,7 @@ namespace ProjektApp.Controllers
             _userManager = userManager;
             _context = context;
         }
-        
+
         [Authorize]
         public async Task<IActionResult> MyProfile()
         {
@@ -36,7 +34,7 @@ namespace ProjektApp.Controllers
             .ThenInclude(u => u.ProjectMembers)
                 .ThenInclude(pm => pm.Project)
         .FirstOrDefaultAsync(p => p.UserId == user.Id);
-               
+
             ViewBag.UserEmail = user.Email;
 
             return View(profile);
@@ -51,7 +49,7 @@ namespace ProjektApp.Controllers
             var profile = await _context.Profile
                 .Include(p => p.CV)
                 .FirstOrDefaultAsync(p => p.UserId == user.Id);
-           
+
             if (profile == null)
             {
                 return View(new EditProfileViewModel());
@@ -62,8 +60,8 @@ namespace ProjektApp.Controllers
                 Bio = profile.Bio,
                 IsPrivate = profile.IsPrivate,
             };
-        
-        
+
+
             return View(vm);
         }
 
@@ -91,7 +89,7 @@ namespace ProjektApp.Controllers
             profile.Bio = model.Bio;
             profile.IsPrivate = model.IsPrivate;
 
-            if(model.ProfileImage != null && model.ProfileImage.Length > 0)
+            if (model.ProfileImage != null && model.ProfileImage.Length > 0)
             {
                 var uploadsFolder = Path.Combine("wwwroot", "uploads", "profiles");
 
@@ -130,19 +128,50 @@ namespace ProjektApp.Controllers
             .ThenInclude(u => u.ProjectMembers)
                 .ThenInclude(pm => pm.Project)
              .FirstOrDefaultAsync(p => p.UserId == id);
-            
+
             if (profile == null)
             {
                 return NotFound();
             }
 
-            if(profile.IsPrivate && !User.Identity.IsAuthenticated)
+            if (profile.IsPrivate && !User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (User.Identity.IsAuthenticated && id == currentUserId)
+            {
+                return RedirectToAction("MyProfile");
             }
             return View(profile);
         }
 
+        public IActionResult Index(string search)
+        {
+            var profilesQuery = _context.Profile.AsQueryable();
+
+            //Inte inloggad bara publika profiler
+            if (!User.Identity.IsAuthenticated)
+            {
+                profilesQuery = profilesQuery.Where(p => !p.IsPrivate);
+            }
+
+            //Sök på namn
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                profilesQuery = profilesQuery
+                    .Where(p => p.FullName.Contains(search));
+            }
+
+            profilesQuery = profilesQuery.OrderBy(p => p.FullName);
+
+            var profiles = profilesQuery.ToList();
+
+            ViewBag.Search = search;
+            return View(profiles);
+        }
 
     }
 }

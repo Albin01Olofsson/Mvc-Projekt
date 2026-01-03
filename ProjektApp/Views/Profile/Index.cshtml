@@ -1,0 +1,47 @@
+﻿@model List<Profile>
+
+<h2 class="mb-4">Profiler</h2>
+
+<form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text"
+               name="search"
+               value="@ViewBag.Search"
+               class="form-control"
+               placeholder="Sök efter namn..." />
+        <button class="btn btn-primary">
+            Sök
+        </button>
+    </div>
+</form>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var profile in Model)
+        {
+            <div class="col-md-3 mb-3">
+                <div class="border rounded p-3 h-100 bg-light">
+                    <strong>@profile.FullName</strong>
+
+                    <p class="text-muted small mb-2">
+                        @profile.Bio
+                    </p>
+
+                    <a asp-controller="Profile"
+                       asp-action="Details"
+                       asp-route-id="@profile.UserId"
+                       class="btn btn-outline-secondary btn-sm">
+                        Visa profil
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted">
+        Inga profiler hittades.
+    </p>
+}
