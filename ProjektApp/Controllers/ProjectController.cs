@@ -187,5 +187,22 @@ namespace ProjektApp.Controllers
 
             return RedirectToAction("Details", new { id = project.ProjectId });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var project = await _context.Projects
+                .Include(p => p.Owner)
+                    .ThenInclude(o => o.Profile)
+                .Include(p => p.ProjectMembers)
+                    .ThenInclude(pm => pm.User)
+                        .ThenInclude(u => u.Profile)
+                .FirstOrDefaultAsync(p => p.ProjectId == id);
+
+            if (project == null)
+                return NotFound();
+
+            return View(project);
+        }
     }
 }

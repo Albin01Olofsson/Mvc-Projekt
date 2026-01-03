@@ -1,0 +1,84 @@
+﻿@model Project
+
+<div class="container mt-4">
+
+    <!-- Titel + beskrivning -->
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">@Model.Title</h2>
+            <p class="card-text text-muted">
+                @Model.Description
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- Skapare -->
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header">
+                    Skapad av
+                </div>
+                <div class="card-body">
+                    @if (Model.Owner?.Profile != null)
+                    {
+                        <strong>@Model.Owner.Profile.FullName</strong>
+                    
+                        <br />
+                        <small class="text-muted">@Model.Owner.Email</small>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">Okänd</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Medlemmar -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    Projektmedlemmar
+                    <span class="badge bg-secondary ms-2">
+                        @Model.ProjectMembers.Count
+                    </span>
+                </div>
+
+                <div class="card-body p-0">
+                    @if (Model.ProjectMembers.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var pm in Model.ProjectMembers)
+                            {
+                                <li class="list-group-item">
+                                    <strong>@pm.User.Profile.FullName</strong><br />
+                                    <small class="text-muted">
+                                        @pm.User.Email
+                                    </small>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="p-3 text-muted">
+                            Inga medlemmar ännu.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Tillbaka -->
+    <div class="mt-4">
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            ← Tillbaka till projekt
+        </a>
+    </div>
+
+</div>
