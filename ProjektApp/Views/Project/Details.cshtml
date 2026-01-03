@@ -47,10 +47,15 @@
                 </div>
 
                 <div class="card-body p-0">
+                    @{
+                        var isAuthenticated = User.Identity.IsAuthenticated;
+                    }
+
                     @if (Model.ProjectMembers.Any())
                     {
                         <ul class="list-group list-group-flush">
-                            @foreach (var pm in Model.ProjectMembers)
+                            @foreach (var pm in Model.ProjectMembers
+                                                    .Where(pm => isAuthenticated || !pm.User.Profile.IsPrivate))
                             {
                                 <li class="list-group-item">
                                     <strong>@pm.User.Profile.FullName</strong><br />
