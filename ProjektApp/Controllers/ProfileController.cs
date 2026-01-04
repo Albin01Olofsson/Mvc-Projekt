@@ -37,8 +37,8 @@ namespace ProjektApp.Controllers
                 .ThenInclude(pm => pm.Project)
         .FirstOrDefaultAsync(p => p.UserId == user.Id);
 
-            ViewBag.UserEmail = user.Email;
 
+            ViewBag.UserEmail = user.Email;
             return View(profile);
         }
 
