@@ -95,7 +95,7 @@
    
     <h4 class="mb-3">Mina projekt</h4>
 
-    @if (Model.User.ProjectMembers.Any())
+    @if (Model.User?.ProjectMembers?.Any() == true)
     {
         <div class="row g-3">
             @foreach (var pm in Model.User.ProjectMembers)
