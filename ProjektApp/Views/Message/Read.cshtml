@@ -1,5 +1,33 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Models.Message
+
 @{
+    ViewData["Title"] = "Läs meddelande";
 }
+
+<h2>Läs meddelande</h2>
+
+<div class="card mt-3">
+    <div class="card-body">
+
+        <p>
+            <strong>Från:</strong>
+            @Model.SenderName
+        </p>
+
+        <p>
+            <strong>Meddelande:</strong><br />
+            @Model.Content
+        </p>
+
+        <p class="text-muted">
+            Skickat: @Model.SentAt.ToString("yyyy-MM-dd HH:mm")
+        </p>
+
+        <a asp-controller="Message"
+           asp-action="Inbox"
+           class="btn btn-secondary">
+            Tillbaka till inkorgen
+        </a>
+
+    </div>
+</div>

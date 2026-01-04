@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@inject DAL.Context _context
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Models.User> UserManager
+
+<!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="utf-8" />
@@ -72,6 +76,15 @@
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
+                            var userId = UserManager.GetUserId(User);
+                            var unreadCount = _context.Messages
+                            .Count(m => m.ReceiverId == userId && !m.IsRead);
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Message" asp-action="Inbox">
+                                    Inkorg (@unreadCount)
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <span class="nav-link text-muted">
                                     Hej @User.Identity.Name
@@ -134,5 +147,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+
 </body>
 </html>

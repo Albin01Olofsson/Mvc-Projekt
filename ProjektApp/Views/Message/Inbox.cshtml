@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model List<Models.Message>
+
+<h2>Inkorg</h2>
+
+@if (!Model.Any())
+{
+    <p>Du har inga meddelanden.</p>
+}
+else
+{
+    <ul>
+        @foreach (var msg in Model)
+        {
+            <li>
+                <strong>@msg.SenderName</strong><br />
+                @msg.Content<br />
+                <small>@msg.SentAt</small>
+
+                @if (!msg.IsRead)
+                {
+                    <span style="color:red;"> (Oläst)</span>
+                }
+
+                <br />
+                <a asp-action="Read" asp-route-id="@msg.MessageId">Läs</a>
+            </li>
+        }
+    </ul>
 }
