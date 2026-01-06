@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using ProjektApp.Viewmodels;
 
 namespace ProjektApp.Controllers
 {
@@ -24,27 +22,61 @@ namespace ProjektApp.Controllers
         // ======================
         // KRAV 1 – SKICKA
         // ======================
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Send(int receiverProfileId)
+        {
+            var profileExists = await _context.Profile
+                .AnyAsync(p => p.ProfileId == receiverProfileId);
+
+            if (!profileExists)
+                return NotFound();
+
+            return View(new SendMessageViewModel
+            {
+                ReceiverProfileId = receiverProfileId
+            });
+        }
+
+
+
+
+
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Send(
-            int receiverProfileId,
-            string content,
-            string senderName)
+        public async Task<IActionResult> Send(SendMessageViewModel model)
         {
-            var userId = await _userManager.GetUserAsync(User);
-
-            if (string.IsNullOrWhiteSpace(content))
-                return RedirectToAction("Details", "CV", new { id = receiverProfileId });
 
             var receiverProfile = await _context.Profile
-                .FirstOrDefaultAsync(p => p.ProfileId == receiverProfileId);
+        .Include(p => p.User)
+        .FirstOrDefaultAsync(p => p.ProfileId == model.ReceiverProfileId);
 
             if (receiverProfile == null)
-                return NotFound();
+            {
+                return NotFound("Mottagaren kunde inte hittas.");
+
+
+            }
+
+            if (!User.Identity.IsAuthenticated &&
+        string.IsNullOrWhiteSpace(model.SenderName))
+            {
+                ModelState.AddModelError(
+                    nameof(model.SenderName),
+                    "Du måste ange ditt namn när du inte är inloggad."
+                );
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
 
             var message = new Message
             {
-                Content = content,
+                Content = model.Content,
                 SentAt = DateTime.Now,
                 ReceiverId = receiverProfile.UserId,
                 IsRead = false
@@ -58,13 +90,17 @@ namespace ProjektApp.Controllers
             }
             else
             {
-                message.SenderName = senderName;
+                message.SenderName = model.SenderName;
             }
 
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", "CV", new { id = receiverProfileId });
+            return RedirectToAction(
+                "Details",
+                "Profile",
+                new { id = receiverProfile.UserId }
+            );
         }
 
         // ======================

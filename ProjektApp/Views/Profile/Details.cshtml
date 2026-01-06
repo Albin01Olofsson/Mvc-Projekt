@@ -61,17 +61,14 @@ else
     </p>
 }
 
-<h3>Skicka meddelande</h3>
+<hr/>
 
-<form asp-controller="Message" asp-action="Send" method="post">
-    <input type="hidden" name="receiverProfileId" value="@Model.ProfileId" />
 
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <input name="senderName" placeholder="Ditt namn" required />
-    }
 
-    <textarea name="content" required></textarea>
-    <button type="submit">Skicka</button>
-</form>
+<a asp-controller="Message"
+   asp-action="Send"
+   asp-route-receiverProfileId="@Model.ProfileId"
+   class="btn btn-outline-primary">
+    Skicka meddelande
+</a>
 
