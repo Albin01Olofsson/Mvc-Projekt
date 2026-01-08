@@ -6,12 +6,13 @@ namespace ProjektApp.Viewmodels
     {
         public int CVId { get; set; }
 
+        [Display(Name = "Utbildning")]
         [Required(ErrorMessage = "vänligen ange utbildning")]
         public string Education { get; set; }
-
-        [Required(ErrorMessage ="väligen ange erfarenheter")]
+        [Display(Name = "Erfarenhet")]
+        [Required(ErrorMessage = "väligen ange erfarenheter")]
         public string Experience { get; set; }
-
+        [Display(Name = "Kompetenser")]
         public string? Skills { get; set; }
     }
 }

@@ -4,29 +4,32 @@
     ViewData["Title"] = "Läs meddelande";
 }
 
-<h2>Läs meddelande</h2>
+<h2 class="mb-4">Läs meddelande</h2>
 
-<div class="card mt-3">
+<div class="card shadow-sm">
     <div class="card-body">
 
-        <p>
-            <strong>Från:</strong>
-            @Model.SenderName
-        </p>
+        <div class="mb-3">
+            <span class="text-muted">Från</span>
+            <h5 class="mb-0">@Model.SenderName</h5>
+        </div>
 
-        <p>
-            <strong>Meddelande:</strong><br />
-            @Model.Content
-        </p>
+        <hr />
 
-        <p class="text-muted">
+        <div class="mb-3">
+            <p class="mb-0">
+                @Model.Content
+            </p>
+        </div>
+
+        <div class="text-muted small mb-4">
             Skickat: @Model.SentAt.ToString("yyyy-MM-dd HH:mm")
-        </p>
+        </div>
 
         <a asp-controller="Message"
            asp-action="Inbox"
-           class="btn btn-secondary">
-            Tillbaka till inkorgen
+           class="btn btn-outline-secondary">
+            ← Tillbaka till inkorgen
         </a>
 
     </div>

@@ -1,32 +1,49 @@
 ﻿@model EditCVViewModel
 
-<h1>Redigera CV</h1>
+<h1 class="mb-4">Redigera CV</h1>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" class="card p-4 shadow-sm">
     <input type="hidden" asp-for="CVId" />
 
     <!-- Sammanfattning av fel -->
-    <div asp-validation-summary="All" style="color:red;"></div>
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
 
-    <p>
-        <label asp-for="Education"></label><br />
-        <textarea asp-for="Education"></textarea><br />
-        <span asp-validation-for="Education" style="color:red;"></span>
-    </p>
+    <div class="mb-3">
+        <label asp-for="Education" class="form-label"></label>
+        <textarea asp-for="Education"
+                  class="form-control"
+                  rows="4"></textarea>
+        <span asp-validation-for="Education"
+              class="text-danger"></span>
+    </div>
 
-    <p>
-        <label asp-for="Experience"></label><br />
-        <textarea asp-for="Experience"></textarea><br />
-        <span asp-validation-for="Experience" style="color:red;"></span>
-    </p>
+    <div class="mb-3">
+        <label asp-for="Experience" class="form-label"></label>
+        <textarea asp-for="Experience"
+                  class="form-control"
+                  rows="4"></textarea>
+        <span asp-validation-for="Experience"
+              class="text-danger"></span>
+    </div>
 
-    <p>
-        <label asp-for="Skills"></label><br />
-        <input asp-for="Skills" /><br />
-        <span asp-validation-for="Skills" style="color:red;"></span>
-    </p>
+    <div class="mb-3">
+        <label asp-for="Skills" class="form-label"></label>
+        <input asp-for="Skills"
+               class="form-control" />
+        <span asp-validation-for="Skills"
+              class="text-danger"></span>
+    </div>
 
-    <button type="submit">Spara</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">
+            Spara
+        </button>
+
+        <a asp-action="Details"
+           class="btn btn-secondary">
+            Avbryt
+        </a>
+    </div>
 </form>
 
 @section Scripts {

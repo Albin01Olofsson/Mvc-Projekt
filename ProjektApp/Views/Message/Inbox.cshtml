@@ -1,28 +1,46 @@
 ﻿@model List<Models.Message>
 
-<h2>Inkorg</h2>
+<h2 class="mb-4">Inkorg</h2>
 
 @if (!Model.Any())
 {
-    <p>Du har inga meddelanden.</p>
+    <div class="alert alert-info">
+        Du har inga meddelanden.
+    </div>
 }
 else
 {
-    <ul>
+    <ul class="list-group">
         @foreach (var msg in Model)
         {
-            <li>
-                <strong>@msg.SenderName</strong><br />
-                @msg.Content<br />
-                <small>@msg.SentAt</small>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="me-3">
+                    <div class="fw-bold">
+                        @msg.SenderName
+                        @if (!msg.IsRead)
+                        {
+                            <span class="badge bg-danger ms-2">
+                                Oläst
+                            </span>
+                        }
+                    </div>
 
-                @if (!msg.IsRead)
-                {
-                    <span style="color:red;"> (Oläst)</span>
-                }
+                    <p class="mb-1">
+                        @msg.Content
+                    </p>
 
-                <br />
-                <a asp-action="Read" asp-route-id="@msg.MessageId">Läs</a>
+                    <small class="text-muted">
+                        @msg.SentAt.ToString("yyyy-MM-dd HH:mm")
+                    </small>
+                </div>
+
+                <div>
+                    <a asp-action="Read"
+                       asp-route-id="@msg.MessageId"
+                       class="btn btn-sm btn-outline-primary">
+                        Läs
+                    </a>
+                </div>
             </li>
         }
     </ul>

@@ -1,15 +1,33 @@
 ﻿@model CV
 
-<h1>CV</h1>
+<h1 class="mb-4">CV</h1>
 
-<h3>Utbildning</h3>
-<p>@Model.Education</p>
+<div class="card shadow-sm">
+    <div class="card-body">
 
-<h3>Erfarenhet</h3>
-<p>@Model.Experience</p>
+        <div class="mb-4">
+            <h4 class="fw-bold">Utbildning</h4>
+            <p class="mb-0">
+                @Model.Education
+            </p>
+        </div>
 
-@if (!string.IsNullOrEmpty(Model.Skills))
-{
-    <h3>Kompetenser</h3>
-    <p>@Model.Skills</p>
-}
+        <div class="mb-4">
+            <h4 class="fw-bold">Erfarenhet</h4>
+            <p class="mb-0">
+                @Model.Experience
+            </p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Skills))
+        {
+            <div class="mb-0">
+                <h4 class="fw-bold">Kompetenser</h4>
+                <p class="mb-0">
+                    @Model.Skills
+                </p>
+            </div>
+        }
+
+    </div>
+</div>

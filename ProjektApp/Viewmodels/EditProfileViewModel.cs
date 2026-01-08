@@ -5,7 +5,7 @@ namespace ProjektApp.Viewmodels
     {
         [Required(ErrorMessage = "Namn måste anges")]
         public string FullName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Bio måste anges")]
         [MinLength(10)]
         public string Bio { get; set; }
 
