@@ -1,8 +1,10 @@
 ﻿@model Profile
 
 <div class="container mt-4">
-
-    <h1 class="mb-4">Min profil</h1>
+   
+    <h1 class="mb-4">
+        <i class="bi bi-person-circle me-2"></i>Min profil
+    </h1>
 
     <div class="row mb-4">
         <div class="col-md-4 text-center">
@@ -41,7 +43,7 @@
                 </p>
 
                 <p>
-                    <strong>Profilstatus:</strong><br />
+                    <strong><i class="bi bi-lock-fill me-2"></i> PrivatProfilstatus:</strong><br />
                     <span class="badge @(Model.IsPrivate ? "bg-secondary" : "bg-success")">
                         @(Model.IsPrivate ? "Privat" : "Offentlig")
                     </span>
@@ -61,7 +63,7 @@
     <div class="d-flex gap-3">
         <a href="@Url.Action("Edit", "Profile")"
            class="btn btn-outline-primary">
-            Redigera profil
+            <i class="bi bi-pencil me-2"></i> Redigera profil
         </a>
 
         @if (Model?.CV != null)
@@ -76,7 +78,7 @@
             <a asp-controller="CV"
                asp-action="Edit"
                class="btn btn-outline-secondary ms-2">
-                Redigera CV
+                <i class="bi bi-pencil me-2"></i> Redigera CV
             </a>
         }
         else

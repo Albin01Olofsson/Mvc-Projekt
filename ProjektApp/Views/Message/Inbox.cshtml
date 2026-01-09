@@ -1,6 +1,9 @@
 ﻿@model List<Models.Message>
 
-<h2 class="mb-4">Inkorg</h2>
+<h2 class="mb-4">
+    <i class="bi bi-envelope me-2"></i>Inkorg
+
+</h2>
 
 @if (!Model.Any())
 {
@@ -20,7 +23,7 @@ else
                         @if (!msg.IsRead)
                         {
                             <span class="badge bg-danger ms-2">
-                                Oläst
+                                <i class="bi bi-envelope me-2"></i>Oläst
                             </span>
                         }
                     </div>

@@ -3,7 +3,9 @@
 
 
 
-<h1>@Model.FullName:s profilsida</h1>
+<h1>
+    <i class="bi bi-person me-2"></i> @Model.FullName:s profilsida
+    </h1>
 
 @if (!string.IsNullOrEmpty(Model.PictureUrl))
 {
@@ -69,6 +71,6 @@ else
    asp-action="Send"
    asp-route-receiverProfileId="@Model.ProfileId"
    class="btn btn-outline-primary">
-    Skicka meddelande
+    <i class="bi bi-envelope me-2"></i>Skicka meddelande
 </a>
 

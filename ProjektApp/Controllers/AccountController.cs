@@ -85,7 +85,7 @@ namespace ProjektApp.Controllers
 
                 return RedirectToAction("MyProfile", "Profile");
             }
-
+            //IdentityErrors
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);

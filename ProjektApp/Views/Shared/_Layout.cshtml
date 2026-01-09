@@ -12,6 +12,8 @@
     <!-- Bootstrap 5 (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -46,13 +48,13 @@
 
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Profile" asp-action="Index">
-                                Profiler
+                                <i class="bi bi-people me-1"></i>Profiler
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Project" asp-action="Index">
-                                Projekt
+                                <i class="bi bi-folder me-1"></i> Projekt
                             </a>
                         </li>
 
@@ -60,19 +62,19 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Profile" asp-action="MyProfile">
-                                    Min profil
+                                    <i class="bi bi-person me-1"></i> Min profil
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="CV" asp-action="Edit">
-                                    Mitt CV
+                                    <i class="bi bi-file-earmark-text me-1"></i>Mitt CV
                                 </a>
                             </li>
                         }
                     </ul>
 
-                    <!-- HÖGER MENY (LOGIN / LOGOUT) -->
+                    <!-- HÖGER MENY (LOGIN / LOGOUT) och inkorg -->
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -81,15 +83,30 @@
                             .Count(m => m.ReceiverId == userId && !m.IsRead);
 
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Message" asp-action="Inbox">
-                                    Inkorg (@unreadCount)
+                                <a class="nav-link d-flex align-items-center gap-1"
+                                   asp-controller="Message"
+                                   asp-action="Inbox">
+
+                                    @if (unreadCount > 0)
+                                    {
+                                        <i class="bi bi-envelope-fill text-danger"></i>
+                                        <span class="badge bg-danger">@unreadCount</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-envelope-open"></i>
+                                    }
+
+                                    Inkorg
                                 </a>
                             </li>
+
                             <li class="nav-item">
                                 <span class="nav-link text-muted">
                                     Hej @User.Identity.Name
                                 </span>
                             </li>
+
                             <li class="nav-item">
                                 <form asp-controller="Account"
                                       asp-action="Logout"
@@ -103,10 +120,13 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Login">
+                                <a class="nav-link"
+                                   asp-controller="Account"
+                                   asp-action="Login">
                                     Logga in
                                 </a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="btn btn-primary ms-2"
                                    asp-controller="Account"

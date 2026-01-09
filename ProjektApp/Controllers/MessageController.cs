@@ -19,9 +19,9 @@ namespace ProjektApp.Controllers
             _userManager = userManager;
         }
 
-        // ======================
+
         // KRAV 1 – SKICKA
-        // ======================
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -103,9 +103,9 @@ namespace ProjektApp.Controllers
             );
         }
 
-        // ======================
+
         // KRAV 2 – INKORG
-        // ======================
+
         [Authorize]
         public async Task<IActionResult> Inbox()
         {
@@ -119,9 +119,9 @@ namespace ProjektApp.Controllers
             return View(messages);
         }
 
-        // ======================
+
         // KRAV 2 – LÄS
-        // ======================
+
         [Authorize]
         public async Task<IActionResult> Read(int id)
         {
