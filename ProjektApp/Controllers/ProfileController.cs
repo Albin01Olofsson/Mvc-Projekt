@@ -152,7 +152,9 @@ namespace ProjektApp.Controllers
 
         public IActionResult Index(string search)
         {
-            var profilesQuery = _context.Profile.AsQueryable();
+            var profilesQuery = _context.Profile
+                .Include(p => p.CV)
+                .AsQueryable();
 
             //Inte inloggad bara publika profiler
             if (!User.Identity.IsAuthenticated)
@@ -160,11 +162,18 @@ namespace ProjektApp.Controllers
                 profilesQuery = profilesQuery.Where(p => !p.IsPrivate);
             }
 
-            //Sök på namn
+            //Sök på namn/skills
             if (!string.IsNullOrWhiteSpace(search))
             {
-                profilesQuery = profilesQuery
-                    .Where(p => p.FullName.Contains(search));
+                var searchTerms = search
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                profilesQuery = profilesQuery.Where(p =>
+                    searchTerms.All(term =>
+                        p.FullName.Contains(term) ||
+                        (p.CV != null && p.CV.Skills.Contains(term))
+                    )
+                );
             }
 
             profilesQuery = profilesQuery.OrderBy(p => p.FullName);

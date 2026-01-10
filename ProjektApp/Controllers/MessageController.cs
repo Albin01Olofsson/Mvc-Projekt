@@ -138,5 +138,27 @@ namespace ProjektApp.Controllers
 
             return View(message);
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var message = await _context.Messages
+                .FirstOrDefaultAsync(m => m.MessageId == id);
+
+            if (message == null)
+                return NotFound();
+
+            // säkerhetskontroll
+            if (message.ReceiverId != userId)
+                return Forbid();
+
+            _context.Messages.Remove(message);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Inbox");
+        }
     }
 }

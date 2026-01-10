@@ -1,8 +1,7 @@
 ﻿@model List<Models.Message>
 
 <h2 class="mb-4">
-    <i class="bi bi-envelope me-2"></i>Inkorg
-
+    <i class="bi bi-envelope me-2"></i> Inkorg
 </h2>
 
 @if (!Model.Any())
@@ -17,13 +16,16 @@ else
         @foreach (var msg in Model)
         {
             <li class="list-group-item d-flex justify-content-between align-items-start">
+
+                <!-- VÄNSTER DEL -->
                 <div class="me-3">
                     <div class="fw-bold">
                         @msg.SenderName
+
                         @if (!msg.IsRead)
                         {
                             <span class="badge bg-danger ms-2">
-                                <i class="bi bi-envelope me-2"></i>Oläst
+                                <i class="bi bi-envelope-fill me-1"></i> Oläst
                             </span>
                         }
                     </div>
@@ -37,13 +39,64 @@ else
                     </small>
                 </div>
 
-                <div>
+                <!-- HÖGER DEL -->
+                <div class="text-end">
                     <a asp-action="Read"
                        asp-route-id="@msg.MessageId"
-                       class="btn btn-sm btn-outline-primary">
+                       class="btn btn-sm btn-outline-primary mb-2">
                         Läs
                     </a>
+
+                    <br />
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal-@msg.MessageId">
+                        <i class="bi bi-trash"></i> Ta bort
+                    </button>
                 </div>
+
+                <!-- MODAL FÖR BEKRÄFTELSE -->
+                <div class="modal fade" id="deleteModal-@msg.MessageId" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    Bekräfta borttagning
+                                </h5>
+                                <button type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                Är du säker på att du vill ta bort detta meddelande?
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Avbryt
+                                </button>
+
+                                <form asp-action="DeleteConfirmed" method="post">
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@msg.MessageId" />
+                                    <button type="submit"
+                                            class="btn btn-danger">
+                                        Ta bort
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </li>
         }
     </ul>
