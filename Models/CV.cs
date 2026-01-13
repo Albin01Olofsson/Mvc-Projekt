@@ -8,9 +8,9 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CVId { get; set; }
-        
+
         public string? Education { get; set; }
-        
+
         public string? Experience { get; set; }
 
         public string? Skills { get; set; }

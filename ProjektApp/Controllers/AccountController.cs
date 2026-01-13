@@ -77,6 +77,8 @@ namespace ProjektApp.Controllers
                     IsPrivate = false
                 };
 
+
+
                 _context.Profile.Add(profile);
                 await _context.SaveChangesAsync();
 
@@ -84,7 +86,10 @@ namespace ProjektApp.Controllers
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 return RedirectToAction("MyProfile", "Profile");
+
             }
+
+
             //IdentityErrors
             foreach (var error in result.Errors)
             {

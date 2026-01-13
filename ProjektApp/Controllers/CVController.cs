@@ -1,13 +1,11 @@
 ﻿using DAL;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using ProjektApp.Viewmodels;
-using System.Threading.Tasks;
 
 namespace ProjektApp.Controllers
 {
@@ -65,7 +63,7 @@ namespace ProjektApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-           
+
             var userId = _userManager.GetUserId(User);
 
             var cv = await _context.CVs
@@ -87,7 +85,7 @@ namespace ProjektApp.Controllers
                 _context.CVs.Add(cv);
 
             }
-            else 
+            else
             {
                 cv.Education = model.Education;
                 cv.Experience = model.Experience;
@@ -96,7 +94,7 @@ namespace ProjektApp.Controllers
             }
 
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return RedirectToAction("MyProfile", "Profile");
         }
 

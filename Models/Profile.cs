@@ -8,7 +8,7 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProfileId { get; set; }
-        [Required(ErrorMessage =  " Vänligen ange namn ")]
+        [Required(ErrorMessage = " Vänligen ange namn ")]
         public string FullName { get; set; }
         [Required]
         public string Bio { get; set; }
